@@ -1,6 +1,9 @@
 import numpy as np
-import matplotlib as plt 
+import matplotlib.pyplot as plt 
 import math 
+
+from numpy.linalg import *
+from scipy.linalg import expm,inv
 
 ###### SEGUNDO PUNTO #######
 
@@ -93,25 +96,74 @@ for i in range (len(matrizPorTrans)):
 		matrizCovari[i][j]=matrizPorTrans[i][j]*1/569
 
  
-print (matrizCovari)
+#print (matrizCovari)
+
+#print (matrizCovari.shape)
+
+
+#print (np.cov(matrizAct))
+
+
+##### PARTE C #####
+
+# calcular los autovalores y los autovectores de la matriz de covarianza 
+
+valoresPropios = np.linalg.eig(matrizCovari)[0] 
+
+
+#print (valoresPropios.shape)
+
+
+#print ("los valores propios son: ",valoresPropios)
+
+vectoresPropios= np.linalg.eig(matrizCovari)[1] 
+
+
+#print (vectoresPropios.shape)
+
+#print (vectoresPropios)
+
+
+# trado de volver mis valores de auto valores y vectores en una matriz 
 
 
 
 
+#print ("los vectores propios son: ",valoresPropios)
 
 
-print (np.cov(matrizAct))
-
-
-
-
-
+valorMayor=0
+valorMayor2=0
 
 
 
+for i in range(len(valoresPropios)):
+    temp = valoresPropios[i]
+    if (valoresPropios[i] > valorMayor):
+        valorMayor = temp
+        
+
+for i in range(len(valoresPropios)):
+    temp = valoresPropios[i]
+    if(valoresPropios[i] > valorMayor2 and valoresPropios[i] != valorMayor):
+        valorMayor2 = temp
 
 
+print (valorMayor)
 
+print (valorMayor2)
+
+
+#print(vectoresPropios[0])
+
+
+x=np.linspace(-1,1,30)
+
+
+plt.figure()
+plt.plot(vectoresPropios[0],x)
+plt.plot(x,vectoresPropios[1], color="r")
+plt.show()
 
 
 
