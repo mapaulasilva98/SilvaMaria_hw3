@@ -3,6 +3,7 @@ import matplotlib.pyplot as plt
 import math 
 from scipy import fftpack
 from scipy.fftpack import fft,fftfreq,ifft
+from scipy.interpolate import interp1d
 
 
 
@@ -45,7 +46,7 @@ suma= np.linspace (0,0,n)
 
 for i in range (n):
 	for j in range (len(suma)):
-		suma[i] = suma[i] + (sigy[j]*(np.e**((-1j)*2*np.pi*j*i/n)))
+		suma[i] = suma[i] + (sigy[j]*(math.e**((-1j)*2*np.pi*j*i/n)))
 
 
 trans= abs(suma)/n
@@ -99,6 +100,73 @@ plt.plot(sigx,inversa)
 plt.savefig("SilvaMaria_filtrada.pdf")
 
 
+
+# Escriba un mensaje en la terminal explicando por que no puede hacer la transformada de Fourier de los datos de incompletos.dat
+
+
+###########################################################################################
+
+#Haga una interpolacion cuadratica y una cubica de sus datos incompletos.dat con 512 puntos. 
+#Haga la trasformada de Fourier de cada una de las series de datos interpoladas.
+
+incomx=datosIncompletos[:,0] # este es mi tiempo de toma de datos 
+incomy=datosIncompletos[:,1] # estos son mis datos tomados 
+
+
+
+x=np.linspace(min(incomx), max(incomx), 512)
+
+dt2=incomx[1]-incomx[0]
+
+frec2= fftfreq(len(x),dt2)
+
+# cubica 
+
+cubico_data = interp1d(incomx, incomy, kind='cubic', bounds_error=False)
+cubico = cubico_data(x)
+
+
+
+# Transformada de la cubica
+
+sumar= np.linspace (0,0,len(x))
+
+
+for i in range (len(x)):
+	for j in range (len(sumar)):
+		sumar[i] = sumar[i] + (cubico[j]*(math.e**((-1j)*2*np.pi*j*i/n)))
+
+
+
+trans2= abs(sumar)/len(x)
+
+
+
+
+# cuadratica 
+
+cuadratico_data = interp1d(incomx, incomy, kind='quadratic', bounds_error=False)
+cuadratico = cuadratico_data(x)
+
+
+# transfromada cuadratica 
+
+sumar2= np.linspace (0,0,len(x))
+
+
+for i in range (len(x)):
+	for j in range (len(sumar2)):
+		sumar2[i] = sumar2[i] + (cuadratico[j]*(math.e**((-1j)*2*np.pi*j*i/n)))
+
+trans3= abs(sumar2)/len(x)
+
+
+
+
+plt.figure()
+plt.plot(frec2, trans2, color="r")
+plt.plot(frec2, trans3)
+plt.show()
 
 
 
