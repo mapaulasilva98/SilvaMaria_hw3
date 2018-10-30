@@ -148,11 +148,11 @@ for i in range(len(valoresPropios)):
     if(valoresPropios[i] > valorMayor2 and valoresPropios[i] != valorMayor):
         valorMayor2 = temp
 
-
+'''
 print (valorMayor)
 
 print (valorMayor2)
-
+'''
 
 #print(vectoresPropios[0])
 
@@ -160,11 +160,21 @@ print (valorMayor2)
 x=np.linspace(-1,1,30)
 
 
+'''
 plt.figure()
 plt.plot(vectoresPropios[0],x)
 plt.plot(x,vectoresPropios[1], color="r")
 plt.show()
+'''
 
+
+valoresB=[]
+
+
+for i in range(len(vectoresPropios[0])):
+	valoresB.append(np.dot(valoresPropios[i],vectoresPropios[i]))
+
+print (valoresB)
 
 
 
