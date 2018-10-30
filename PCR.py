@@ -111,25 +111,20 @@ for i in range (len(matrizPorTrans)):
 valoresPropios = np.linalg.eig(matrizCovari)[0] 
 
 
-#print (valoresPropios.shape)
-
-
-#print ("los valores propios son: ",valoresPropios)
-
 vectoresPropios= np.linalg.eig(matrizCovari)[1] 
 
 
-#print (vectoresPropios.shape)
-
-#print (vectoresPropios)
 
 
-# trado de volver mis valores de auto valores y vectores en una matriz 
+# autovalor asociado a cada autovector 
+
+for i in range (len(valoresPropios)):
+	print ("El autovalor", valoresPropios[i], "tiene asociado el autovector", vectoresPropios[i])
 
 
 
 
-#print ("los vectores propios son: ",valoresPropios)
+# Los parametros mas importantes con base a las componentes de los autovalores 
 
 
 valorMayor=0
@@ -148,16 +143,8 @@ for i in range(len(valoresPropios)):
     if(valoresPropios[i] > valorMayor2 and valoresPropios[i] != valorMayor):
         valorMayor2 = temp
 
-'''
-print (valorMayor)
 
-print (valorMayor2)
-'''
-
-#print(vectoresPropios[0])
-
-
-x=np.linspace(-1,1,30)
+print ("Los valores mas importante de las componentes de los autovalores son:", valorMayor ,"y", valorMayor2 )
 
 
 '''
@@ -168,17 +155,34 @@ plt.show()
 '''
 
 
+# producto punto de mis autovaloes con mis autovectores especiales 
+
 valoresB=[]
 
 
 for i in range(len(vectoresPropios[0])):
 	valoresB.append(np.dot(valoresPropios[i],vectoresPropios[i]))
 
-print (valoresB)
 
 
+# producto punto de mis autovaloes con mis autovectores especiales 
+
+valoresC=[]
 
 
+for i in range(len(vectoresPropios[1])):
+	valoresC.append(np.dot(valoresPropios[i],vectoresPropios[i]))
 
+'''
 
+plt.figure()
+for i in range(len(matrizDatos)):
+	if(matrizDatos[i,0]==0):
+		 plt.plot(valoresB[i],valoresC[i], color="r")
 
+	else :
+		 plt.plot(valoresB[i],valoresC[i])
+
+plt.show()
+
+'''
