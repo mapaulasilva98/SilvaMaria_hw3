@@ -83,7 +83,7 @@ plt.savefig("SilvaMaria_FT2D_filtrada..pdf")
 #Verifique que su filtro elimina el ruido periodico y guarde dicha imagen sin mostrarla en ApellidoNombre_Imagen_filtrada.pdf.
 
 imagenFiltrada = np.real(ifft2(ifftshift(transformada_shift_filtrada)))
-plt.imshow(imagenFiltrada)
+plt.imshow(imagenFiltrada, cmap ="gray")
 plt.title("transformada de Fourier")
 plt.savefig("SilvaMaria_Imagen_filtrada.pdf")
 

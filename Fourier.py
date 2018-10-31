@@ -45,8 +45,8 @@ suma= np.linspace (0,0,n)
 
 
 for i in range (n):
-	for j in range (len(suma)):
-		suma[i] = suma[i] + (sigy[j]*(math.e**((-1j)*2*np.pi*j*i/n)))
+  for j in range (len(suma)):
+    suma[i] = suma[i] + (sigy[j]*(math.e**((-1j)*2*np.pi*j*i/n)))
 
 
 trans= abs(suma)/n
@@ -69,8 +69,8 @@ plt.savefig("SilvaMaria_TF.pdf")
 principales=[]
 
 for i in range (len (frec)):
-	if (trans[i]>0.5):
-		principales.append(frec[i])
+  if (trans[i]>0.5):
+    principales.append(frec[i])
 
 
 print ("Las frecuencias principales de mi senal son:", principales)
@@ -83,10 +83,10 @@ print ("Las frecuencias principales de mi senal son:", principales)
 
 
 for i in range (len (transn1)):
-	if (abs(frec[i])<=1000):
-		transn1[i]=transn1[i]
-	else: 	
-		transn1[i]=0
+  if (abs(frec[i])<=1000):
+    transn1[i]=transn1[i]
+  else:   
+    transn1[i]=0
 
 inversa=ifft(transn1)
 
@@ -109,13 +109,12 @@ incomy=datosIncompletos[:,1] # estos son mis datos tomados
 '''
 
 for i in range (len(incomx)):
-	print (incomx[i+1]-incomx[i])
+  print (incomx[i+1]-incomx[i])
 
 '''
-
+print ("-------------------------------------------")
 print ("No se puede realizar la transformada de Fourier en los datos imcompletos.dat debido a que el delta x de ellos no es el mismo para todos los datos, entonces los datos no estan igualmente espaciados. el muestreo no es homogeneo. ")
-
-
+print ("-------------------------------------------")
 
 #Haga una interpolacion cuadratica y una cubica de sus datos incompletos.dat con 512 puntos. 
 #Haga la trasformada de Fourier de cada una de las series de datos interpoladas.
@@ -133,15 +132,15 @@ cubico_data = interp1d(incomx, incomy, kind='cubic', bounds_error=False)
 cubico = cubico_data(x)
 
 
+# transformada de la cubica 
 
-# Transformada de la cubica
 
 sumar= np.linspace (0,0,len(x))
 
 
 for i in range (len(x)):
-	for j in range (len(sumar)):
-		sumar[i] = sumar[i] + (cubico[j]*(math.e**((-1j)*2*np.pi*j*i/n)))
+  for j in range (len(sumar)):
+    sumar[i] = sumar[i] + (cubico[j]*(math.e**((-1j)*2*np.pi*j*i/n)))
 
 
 
@@ -162,8 +161,8 @@ sumar2= np.linspace (0,0,len(x))
 
 
 for i in range (len(x)):
-	for j in range (len(sumar2)):
-		sumar2[i] = sumar2[i] + (cuadratico[j]*(math.e**((-1j)*2*np.pi*j*i/n)))
+  for j in range (len(sumar2)):
+    sumar2[i] = sumar2[i] + (cuadratico[j]*(math.e**((-1j)*2*np.pi*j*i/n)))
 
 trans3= abs(sumar2)/len(x)
 
@@ -203,32 +202,34 @@ plt.savefig("SilvaMaria_TF_interpola.pdf")
 
 
 # Imprima un mensaje donde describa las diferencias encontradas entre la transformada de Fourier de la senal original y las de las interpolaciones.
-
+print ("-------------------------------------------")
 print ("De manera general, las transfromadas no cambian entre si pues aunque los valores sean diferentes, las frecuencias son iguales. sin embargo, en mis datos")
 print ("imcompletos se pierde un dato que aparece en 0,5 en la transformada orginal ya que la interpolacion no es perfecta y la falta de datos afecta el resultado. ")
 print ("Ademas, las transformadas de las interpolaciones tienen mas ruido que la transformada orginal")
-
+print ("-------------------------------------------")
 # Aplique el filtro pasabajos con una frecuencia de corte  fc=1000 hz y con una frecuencia de corte de fc=500hz.
 
-# para la frecuencia original 
+# para la frecuencia original
+
+
 
 F1 = np.copy(transn1)
 
 
 for i in range (len (transn1)):
-	if (abs(frec[i])<=1000):
-		F1[i]=F1[i]
-	else: 	
-		F1[i]=0
-
+  if (abs(frec[i])<=1000):
+    F1[i]=F1[i]
+  else:   
+    F1[i]=0
+F1=ifft(F1)
 
 
 for i in range (len (transn1)):
-	if (abs(frec[i])<=500):
-		transn1[i]=transn1[i]
-	else: 	
-		transn1[i]=0
-
+  if (abs(frec[i])<=500):
+    transn1[i]=transn1[i]
+  else:   
+    transn1[i]=0
+transn1=ifft(transn1)
 
 #para la cubica 
 
@@ -236,21 +237,21 @@ F2 = np.copy(transn2)
 
 
 for i in range (len (transn2)):
-	if (abs(frec2[i])<=1000):
-		F2[i]=F2[i]
-	else: 	
-		F2[i]=0
-
+  if (abs(frec2[i])<=1000):
+    F2[i]=F2[i]
+  else:   
+    F2[i]=0
+F2=ifft(F2)
 
 
 
 for i in range (len (transn2)):
-	if (abs(frec2[i])<=500):
-		transn2[i]=transn2[i]
-	else: 	
-		transn2[i]=0
+  if (abs(frec2[i])<=500):
+    transn2[i]=transn2[i]
+  else:   
+    transn2[i]=0
 
-
+transn2=ifft(transn2)
 
 
 #para la cuadratica
@@ -259,18 +260,22 @@ F3 = np.copy(transn3)
 
 
 for i in range (len (transn3)):
-	if (abs(frec2[i])<=1000):
-		F3[i]=F3[i]
-	else: 	
-		F3[i]=0
+  if (abs(frec2[i])<=1000):
+    F3[i]=F3[i]
+  else:   
+    F3[i]=0
+F3=ifft(F3)
 
 
 
 for i in range (len (transn3)):
-	if (abs(frec2[i])<=500):
-		transn3[i]=transn3[i]
-	else: 	
-		transn3[i]=0
+  if (abs(frec2[i])<=500):
+    transn3[i]=transn3[i]
+  else:   
+    transn3[i]=0
+
+transn3=ifft(transn3)
+
 
 
 #Haga una grafica con dos subplots (uno para cada filtro) de las 3 senales filtradas y guardela sin mostrarla en ApellidoNombre_2Filtros.pdf.
@@ -279,50 +284,53 @@ for i in range (len (transn3)):
 
 plt.figure()
 plt.subplot(3,2,1)
-plt.plot(frec, F1 )
-plt.title("Transformada de Fourier filtro 1000")
-plt.xlabel("frecuencia")
-plt.ylabel("transformada")
-plt.xlim(-1500,1500)
+plt.plot(sigx, F1, label="Fourier - 1000" )
+plt.title("                                               senales filtradas para fourier, cupica y cuadratica para filtos 1000 y 500")
+#plt.xlabel("frecuencia")
+plt.ylabel("y(t)")
+plt.xlim(min(sigx),max(sigx))
+plt.legend()
 
 
 plt.subplot(3,2,2)
-plt.plot(frec, transn1 )
-plt.title("Transformada de Fourier filtro 500")
-plt.xlabel("frecuencia")
-plt.ylabel("transformada")
-plt.xlim(-1500,1500)
-
+plt.plot(sigx, transn1, label="Fourier - 500" )
+#plt.title("Transformada de Fourier filtro 500")
+#plt.xlabel("frecuencia")
+#plt.ylabel("transformada")
+plt.xlim(min(sigx),max(sigx))
+plt.legend()
 
 plt.subplot(3,2,3)
-plt.plot(frec2, F2, color="r")
-plt.title("Transformada de Fourier de la Interpolacion Cubica filtro 1000")
-plt.xlabel("frecuencia")
-plt.ylabel("transformada")
-plt.xlim(-1500,1500)
+plt.plot(sigx, F2, color="r", label="cubica - 1000")
+#plt.title("Transformada de Fourier de la Interpolacion Cubica filtro 1000")
+#plt.xlabel("frecuencia")
+plt.ylabel("y(t)")
+plt.xlim(min(sigx),max(sigx))
+plt.legend()
 
 plt.subplot(3,2,4)
-plt.plot(frec2, transn2, color="r")
-plt.title("Transformada de Fourier de la Interpolacion Cubica filtro 500")
-plt.xlabel("frecuencia")
-plt.ylabel("transformada")
-plt.xlim(-1500,1500)
-
+plt.plot(sigx, transn2, color="r", label="cubica - 500")
+#plt.title("Transformada de Fourier de la Interpolacion Cubica filtro 500")
+#plt.xlabel("frecuencia")
+#plt.ylabel("transformada")
+plt.xlim(min(sigx),max(sigx))
+plt.legend()
 
 plt.subplot(3,2,5)
-plt.plot(frec2, F3, color="green")
-plt.title("Transformada de Fourier de la Interpolacion Cuadratica filtro 1000")
-plt.xlabel("frecuencia")
-plt.ylabel("transformada")
-plt.xlim(-1500,1500)
-
+plt.plot(sigx, F3, color="green", label="cuadratica - 1000")
+#plt.title("Transformada de Fourier de la Interpolacion Cuadratica filtro 1000")
+plt.xlabel("timepo")
+plt.ylabel("y(t)")
+plt.xlim(min(sigx),max(sigx))
+plt.legend()
 
 plt.subplot(3,2,6)
-plt.plot(frec2, transn3, color="green")
-plt.title("Transformada de Fourier de la Interpolacion Cuadratica filtro 500")
-plt.xlabel("frecuencia")
-plt.ylabel("transformada")
-plt.xlim(-1500,1500)
+plt.plot(sigx, transn3, color="green", label="cuadratica - 500")
+#plt.title("Transformada de Fourier de la Interpolacion Cuadratica filtro 500")
+plt.xlabel("tiempo")
+#plt.ylabel("transformada")
+plt.xlim(min(sigx),max(sigx))
+plt.legend()
 
 plt.savefig("SilvaMaria_2Filtros.pdf")
 

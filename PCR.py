@@ -5,7 +5,9 @@ import math
 from numpy.linalg import *
 from scipy.linalg import expm,inv
 
-###### SEGUNDO PUNTO #######
+
+########## SEGUNDO PUNTO ########
+
 
 ###### PARTE A #####
 
@@ -13,7 +15,8 @@ datos= open("WDBC.dat.txt", "r")
 
 datosArr = datos.read().split('\n')
 
-#Matriz donde se van a almacenar los datos, la matriz que utilizare para hacer la metriz de covarianza
+# matriz donde se van a almanecar los datos, la matriz que utilizare para hacer la matriz de covarianza
+
 matrizDatos = np.zeros((569,31))
 
 #Se pasan los datos a la matriz creada
@@ -31,7 +34,6 @@ for i in range(len(matrizDatos)):
 		matrizDatos[i][j] = lineaActual[j+1]
 
 
-##### PARTE B #####
 
 #Realizare la matriz de covarianza
 
@@ -87,13 +89,15 @@ for i in range(len(transpuesta)):
 
 #print (matrizPorTrans)
 
-#finalmente obtengo la mtriz transpuesta
+#finalmente obtengo la matriz transpuesta
 
 matrizCovari=np.zeros((30,30))
 
 for i in range (len(matrizPorTrans)):
 	for j in range (len(matrizPorTrans[0])):
 		matrizCovari[i][j]=matrizPorTrans[i][j]*1/569
+
+print (matrizCovari)
 
  
 #print (matrizCovari)
@@ -115,14 +119,6 @@ vectoresPropios= np.linalg.eig(matrizCovari)[1]
 
 
 
-############################### intento #############################
-
-cova=np.cov(matrizAct) 
-
-valoresPropios2=np.linalg.eig(cova)[0]
-
-
-
 
 
 # autovalor asociado a cada autovector 
@@ -131,9 +127,6 @@ for i in range (len(valoresPropios)):
 	print ("El autovalor", valoresPropios[i], "tiene asociado el autovector", vectoresPropios[i])
 
 
-
-
-# Los parametros mas importantes con base a las componentes de los autovalores 
 
 
 valorMayor=0
@@ -177,8 +170,6 @@ for i in range(len(matrizDatos)):
 matrizMalignos=prematrizMalignos[:,1:]
 matrizBenignos=prematrizBenignos[:,1:]
 
-print (matrizMalignos.shape)
-
 
 # ahora hago producto punto de cada una de mis metrices para obtener lo que tengo que plotear al final 
 
@@ -203,6 +194,8 @@ for i in range(len(vectoresPropios[1])):
 
 valoresYmArray = np.asarray(valoresYm) ######################## DATOS PARA PLOTEAR
 
+
+
 ##################################################################################################
 
 valoresXb=[]
@@ -211,9 +204,9 @@ valoresXb=[]
 for i in range(len(vectoresPropios[0])):
 	valoresXb.append(np.dot(vectoresPropios[0],matrizBenignos[i]))
 
-valoresXbArray = np.asarray(valoresXb)
+valoresXbArray = np.asarray(valoresXb)  ######################## DATOS PARA PLOTEAR
 
-print (valoresXbArray)
+
 
 ##################################################################################################
 
@@ -224,9 +217,9 @@ for i in range(len(vectoresPropios[1])):
 	valoresYb.append(np.dot(vectoresPropios[1],matrizBenignos[i]))
 
 
-valoresYbArray = np.asarray(valoresYb)
+valoresYbArray = np.asarray(valoresYb)  ######################## DATOS PARA PLOTEAR
 
-print (valoresYbArray)
+
 
 ##################################################################################################
 
@@ -242,7 +235,7 @@ plt.ylabel("PC2")
 plt.ylim(-600,100)
 plt.legend()
 plt.savefig("SilvaMaria_PCA.pdf")
-plt.show()
+#plt.show()
 
 
 #Imprima un mensaje diciendo si el metodo de PCA es util para hacer esta clasificacion,
