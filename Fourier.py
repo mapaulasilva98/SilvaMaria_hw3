@@ -212,11 +212,14 @@ print ("Ademas, las transformadas de las interpolaciones tienen mas ruido que la
 
 # para la frecuencia original 
 
+F1 = np.copy(transn1)
+
+
 for i in range (len (transn1)):
 	if (abs(frec[i])<=1000):
-		transn1[i]=transn1[i]
+		F1[i]=F1[i]
 	else: 	
-		transn1[i]=0
+		F1[i]=0
 
 
 
@@ -229,12 +232,14 @@ for i in range (len (transn1)):
 
 #para la cubica 
 
+F2 = np.copy(transn2)
+
 
 for i in range (len (transn2)):
 	if (abs(frec2[i])<=1000):
-		transn2[i]=transn2[i]
+		F2[i]=F2[i]
 	else: 	
-		transn2[i]=0
+		F2[i]=0
 
 
 
@@ -248,24 +253,77 @@ for i in range (len (transn2)):
 
 
 
-#para la cuadratica 
+#para la cuadratica
+
+F3 = np.copy(transn3)
 
 
 for i in range (len (transn3)):
 	if (abs(frec2[i])<=1000):
+		F3[i]=F3[i]
+	else: 	
+		F3[i]=0
+
+
+
+for i in range (len (transn3)):
+	if (abs(frec2[i])<=500):
 		transn3[i]=transn3[i]
 	else: 	
 		transn3[i]=0
 
 
-
-for i in range (len (transn3)):
-	if (abs(frec2[i])<=1000):
-		transn3[i]=transn3[i]
-	else: 	
-		transn3[i]=0
+#Haga una grafica con dos subplots (uno para cada filtro) de las 3 senales filtradas y guardela sin mostrarla en ApellidoNombre_2Filtros.pdf.
 
 
 
+plt.figure()
+plt.subplot(3,2,1)
+plt.plot(frec, F1 )
+plt.title("Transformada de Fourier filtro 1000")
+plt.xlabel("frecuencia")
+plt.ylabel("transformada")
+plt.xlim(-1500,1500)
+
+
+plt.subplot(3,2,2)
+plt.plot(frec, transn1 )
+plt.title("Transformada de Fourier filtro 500")
+plt.xlabel("frecuencia")
+plt.ylabel("transformada")
+plt.xlim(-1500,1500)
+
+
+plt.subplot(3,2,3)
+plt.plot(frec2, F2, color="r")
+plt.title("Transformada de Fourier de la Interpolacion Cubica filtro 1000")
+plt.xlabel("frecuencia")
+plt.ylabel("transformada")
+plt.xlim(-1500,1500)
+
+plt.subplot(3,2,4)
+plt.plot(frec2, transn2, color="r")
+plt.title("Transformada de Fourier de la Interpolacion Cubica filtro 500")
+plt.xlabel("frecuencia")
+plt.ylabel("transformada")
+plt.xlim(-1500,1500)
+
+
+plt.subplot(3,2,5)
+plt.plot(frec2, F3, color="green")
+plt.title("Transformada de Fourier de la Interpolacion Cuadratica filtro 1000")
+plt.xlabel("frecuencia")
+plt.ylabel("transformada")
+plt.xlim(-1500,1500)
+
+
+plt.subplot(3,2,6)
+plt.plot(frec2, transn3, color="green")
+plt.title("Transformada de Fourier de la Interpolacion Cuadratica filtro 500")
+plt.xlabel("frecuencia")
+plt.ylabel("transformada")
+plt.xlim(-1500,1500)
+
+plt.savefig("SilvaMaria_2Filtros.pdf")
 
 
