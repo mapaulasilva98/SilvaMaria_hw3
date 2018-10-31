@@ -115,6 +115,15 @@ vectoresPropios= np.linalg.eig(matrizCovari)[1]
 
 
 
+############################### intento #############################
+
+cova=np.cov(matrizAct) 
+
+valoresPropios2=np.linalg.eig(cova)[0]
+
+
+
+
 
 # autovalor asociado a cada autovector 
 
@@ -146,43 +155,103 @@ for i in range(len(valoresPropios)):
 
 print ("Los valores mas importante de las componentes de los autovalores son:", valorMayor ,"y", valorMayor2 )
 
+ 
 
-'''
-plt.figure()
-plt.plot(vectoresPropios[0],x)
-plt.plot(x,vectoresPropios[1], color="r")
-plt.show()
-'''
+# para este punto debo separar las matrices de los malignos y beningnos y despues realizar producto punto con con mi autovectores importante 
+
+prematrizMalignos=np.zeros((569,31))
+prematrizBenignos=np.zeros((569,31))
 
 
-# producto punto de mis autovaloes con mis autovectores especiales 
+indiceUnos = 0
+indiceCeros = 0
 
-valoresB=[]
+for i in range(len(matrizDatos)):
+    if (matrizDatos[i][0] == 0):
+        prematrizMalignos[indiceCeros] = matrizDatos[i]
+        indiceCeros=indiceCeros+1
+    else:
+        prematrizBenignos[indiceUnos] = matrizDatos[i]
+        indiceUnos=indiceUnos+1
+
+matrizMalignos=prematrizMalignos[:,1:]
+matrizBenignos=prematrizBenignos[:,1:]
+
+print (matrizMalignos.shape)
+
+
+# ahora hago producto punto de cada una de mis metrices para obtener lo que tengo que plotear al final 
+
+
+valoresXm=[]
 
 
 for i in range(len(vectoresPropios[0])):
-	valoresB.append(np.dot(valoresPropios[i],vectoresPropios[i]))
+	valoresXm.append(np.dot(vectoresPropios[0],matrizMalignos[i]))
+
+valoresXmArray = np.asarray(valoresXm) ####################### DATOS PARA PLOTEAR 
 
 
+##################################################################################################
 
-# producto punto de mis autovaloes con mis autovectores especiales 
-
-valoresC=[]
+valoresYm=[]
 
 
 for i in range(len(vectoresPropios[1])):
-	valoresC.append(np.dot(valoresPropios[i],vectoresPropios[i]))
+	valoresYm.append(np.dot(vectoresPropios[1],matrizMalignos[i]))
 
-'''
+
+valoresYmArray = np.asarray(valoresYm) ######################## DATOS PARA PLOTEAR
+
+##################################################################################################
+
+valoresXb=[]
+
+
+for i in range(len(vectoresPropios[0])):
+	valoresXb.append(np.dot(vectoresPropios[0],matrizBenignos[i]))
+
+valoresXbArray = np.asarray(valoresXb)
+
+print (valoresXbArray)
+
+##################################################################################################
+
+valoresYb=[]
+
+
+for i in range(len(vectoresPropios[1])):
+	valoresYb.append(np.dot(vectoresPropios[1],matrizBenignos[i]))
+
+
+valoresYbArray = np.asarray(valoresYb)
+
+print (valoresYbArray)
+
+##################################################################################################
+
+
+ 
 
 plt.figure()
-for i in range(len(matrizDatos)):
-	if(matrizDatos[i,0]==0):
-		 plt.plot(valoresB[i],valoresC[i], color="r")
-
-	else :
-		 plt.plot(valoresB[i],valoresC[i])
-
+plt.scatter(valoresXmArray,valoresYmArray, color = "r", label="Malignos")
+plt.scatter(valoresXbArray,valoresYbArray, color= "green", label="Benignos")
+plt.title("Malignos VS Beningnos")
+plt.xlabel("PC1")
+plt.ylabel("PC2")
+plt.legend()
+plt.savefig("SilvaMaria_PCA.pdf")
 plt.show()
 
-'''
+
+#Imprima un mensaje diciendo si el metodo de PCA es util para hacer esta clasificacion,
+#si no sirve o si puede ayudar al diagnostico para ciertos pacientes, argumentando claramente su posicion.
+
+
+print("Este metodo de clasificacion es efectivo, pues aunque los datos se lleguen a mezclar un puco en cierto punto, la tendencia se nota")
+print("pues hay se llega a un sector en donde es indudable que en este caso el tumor va a ser maligno. esto significa que los vectores")
+print("seleccionados que son los mas importantes, cumplen con la funcion de diferenciar los pacientes con tumores malignos y benignos")
+
+
+
+
